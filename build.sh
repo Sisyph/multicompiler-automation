@@ -7,8 +7,7 @@ if [[ $DISTRO = 'ubuntu' ]]; then
 fi
 
 if [ ! -d "llvm" ]; then
-    ./fetch_multicompiler.sh
-
+    make fetch 
 else
     ./git_pull.sh
 fi

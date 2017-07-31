@@ -2,7 +2,7 @@
 
 #SHELL=/bin/bash
 
-#.PHONY: clean
+.PHONY: clean fetch
 
 #llvm-cmake hypervisor-setup
 PREFIX=$(realpath tools)
@@ -11,6 +11,29 @@ all:
 
 #@echo "Prefix = $(value PREFIX)"
 
+#download src
+##############################
+fetch: llvm llvm/tools/clang llvm/projects/compiler-rt llvm/projects/poolalloc llvm/projects/svf binutils
+
+llvm:
+	git clone -b cfar_38 git@github.com:/securesystemslab/multicompiler-priv.git llvm
+
+llvm/tools/clang: llvm
+	git clone -b cfar_38 git@github.com:/securesystemslab/multicompiler-clang-priv.git llvm/tools/clang
+
+llvm/projects/compiler-rt: llvm
+	git clone -b cfar_38 git@github.com:/securesystemslab/multicompiler-compiler-rt-priv.git llvm/projects/compiler-rt
+
+llvm/projects/poolalloc: llvm
+	git clone -b cfar_38 git@github.com:/securesystemslab/poolalloc llvm/projects/poolalloc
+
+llvm/projects/svf: llvm
+	git clone git@github.com:/rboggild/SVF llvm/projects/svf
+
+binutils:
+	git clone -b random_commons-2_26 git@github.com:/securesystemslab/binutils.git
+
+##############################
 install: gold.install clang.install
 
 gold.install: gold.build
@@ -40,6 +63,10 @@ tools/bin/clang: llvm/build
 	./build_clang.sh
 
 clang: tools/lib/bfd-plugins
+
+clean:
+	rm -rf llvm
+	rm -rf binutils
 
 clean_llvm:
 	rm -rf llvm/build
