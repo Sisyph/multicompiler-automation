@@ -34,12 +34,15 @@ binutils:
 	git clone -b random_commons-2_26 git@github.com:/securesystemslab/binutils.git
 
 ##############################
-install: gold.install clang.install
+install: gold.install clang.install outdir
 
 gold.install: gold.build
 	$(MAKE) -C binutils install
 
 clang.install: tools/bin/clang tools/bin/ld.old tools/lib/bfd-plugins
+
+outdir: clang.install
+	mv tools/* /multicompiler
 
 tools/bin/ld.old: gold.install
 	mv tools/bin/ld tools/bin/ld.old; \
@@ -62,7 +65,7 @@ tools/lib/bfd-plugins: tools/bin/clang gold.install
 tools/bin/clang: llvm/build
 	./build_clang.sh
 
-clang: tools/lib/bfd-plugins
+#clang: tools/lib/bfd-plugins
 
 clean:
 	rm -rf llvm
