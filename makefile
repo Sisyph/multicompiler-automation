@@ -49,7 +49,7 @@ tools/bin/ld.old: gold.install
 	ln -sf ld.gold tools/bin/ld
 
 gold.build: gold.config
-	$(MAKE) -C binutils
+	$(MAKE) -j -C binutils
 
 gold.config: binutils/.binutils_configured
 
@@ -67,7 +67,7 @@ tools/bin/clang: llvm/build
 
 #clang: tools/lib/bfd-plugins
 
-clean:
+clean: clean_install
 	rm -rf llvm
 	rm -rf binutils
 
