@@ -13,7 +13,7 @@ all:
 
 #download src
 ##############################
-fetch: llvm llvm/tools/clang llvm/projects/compiler-rt llvm/projects/poolalloc llvm/projects/svf binutils
+fetch: llvm llvm/tools/clang llvm/projects/compiler-rt llvm/projects/svf binutils
 
 llvm:
 	git clone -b cfar_38 git@github.com:/securesystemslab/multicompiler-priv.git llvm
@@ -23,9 +23,6 @@ llvm/tools/clang: llvm
 
 llvm/projects/compiler-rt: llvm
 	git clone -b cfar_38 git@github.com:/securesystemslab/multicompiler-compiler-rt-priv.git llvm/projects/compiler-rt
-
-llvm/projects/poolalloc: llvm
-	git clone -b cfar_38 git@github.com:/securesystemslab/poolalloc llvm/projects/poolalloc
 
 llvm/projects/svf: llvm
 	git clone git@github.com:/rboggild/SVF llvm/projects/svf

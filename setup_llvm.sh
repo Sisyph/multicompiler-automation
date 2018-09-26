@@ -8,6 +8,7 @@ cmake .. -DLLVM_TARGETS_TO_BUILD="X86"            \
     -DCMAKE_INSTALL_PREFIX=$PREFIX                \
     -DCMAKE_BUILD_TYPE=Release                    \
     -DLLVM_BINUTILS_INCDIR=../../binutils/include \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \ #for youcompleteme
     -G Ninja ;                                    \
 popd
 
