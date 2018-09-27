@@ -2,14 +2,14 @@
 
 #SHELL=/bin/bash
 
-.PHONY: clean fetch
+.PHONY: clean fetch ppf
 
 #llvm-cmake hypervisor-setup
 PREFIX=$(realpath tools)
 
 all:
 
-#@echo "Prefix = $(value PREFIX)"
+#echo "Prefix = $(value PREFIX)"
 
 #download src
 ##############################
@@ -31,7 +31,10 @@ binutils:
 	git clone -b random_commons-2_26 git@github.com:/securesystemslab/binutils.git
 
 ##############################
-install: gold.install clang.install outdir
+install: ppf gold.install clang.install outdir
+
+ppf:
+	./patch_printf.bash 
 
 gold.install: gold.build
 	$(MAKE) -C binutils install
@@ -46,6 +49,7 @@ tools/bin/ld.old: gold.install
 	ln -sf ld.gold tools/bin/ld
 
 gold.build: gold.config
+	echo $(value PREFIX)
 	$(MAKE) -j -C binutils
 
 gold.config: binutils/.binutils_configured
@@ -53,7 +57,7 @@ gold.config: binutils/.binutils_configured
 binutils/.binutils_configured:
 	./configure_binutils.sh $(PREFIX)
 
-llvm/build:
+llvm/build: ppf
 	./setup_llvm.sh $(PREFIX)
 
 tools/lib/bfd-plugins: tools/bin/clang gold.install
