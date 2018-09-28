@@ -13,7 +13,7 @@ all:
 
 #download src
 ##############################
-fetch: llvm llvm/tools/clang llvm/projects/compiler-rt llvm/projects/svf binutils
+fetch: llvm llvm/tools/clang llvm/projects/compiler-rt llvm/projects/svf llvm/projects/poolalloc binutils
 
 llvm:
 	git clone -b cfar_38 git@github.com:/securesystemslab/multicompiler-priv.git llvm
@@ -26,6 +26,9 @@ llvm/projects/compiler-rt: llvm
 
 llvm/projects/svf: llvm
 	git clone git@github.com:/rboggild/SVF llvm/projects/svf
+
+llvm/projects/poolalloc: llvm
+	git clone -b cfar_38 git@github.com:/securesystemslab/poolalloc-priv.git llvm/projects/poolalloc
 
 binutils:
 	git clone -b random_commons-2_26 git@github.com:/securesystemslab/binutils.git
@@ -42,7 +45,7 @@ gold.install: gold.build
 clang.install: tools/bin/clang tools/bin/ld.old tools/lib/bfd-plugins
 
 outdir: clang.install
-	mv tools/* /multicompiler
+	sudo mv tools/* /multicompiler
 
 tools/bin/ld.old: gold.install
 	mv tools/bin/ld tools/bin/ld.old; \
